@@ -69,9 +69,7 @@
 package com.project.back_end.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -92,25 +90,34 @@ public class Appointment {
     private Patient patient;
 
     @Future(message = "Appointment time must be in the future")
+    @NotNull(message = "Appointment time is required")
     private LocalDateTime appointmentTime;
 
     @NotNull(message = "Status cannot be null")
     private int status; // 0 = Scheduled, 1 = Completed
 
+    @Size(max = 255, message = "Reason for visit can't exceed 255 characters")
+    private String reasonForVisit;
+
+    @Size(max = 500, message = "Notes can't exceed 500 characters")
+    private String notes;
+
     // Default constructor
     public Appointment() {
     }
 
-    // Parameterized constructor
-    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status) {
+    // Enhanced constructor
+    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status,
+                       String reasonForVisit, String notes) {
         this.doctor = doctor;
         this.patient = patient;
         this.appointmentTime = appointmentTime;
         this.status = status;
+        this.reasonForVisit = reasonForVisit;
+        this.notes = notes;
     }
 
     // Transient helper methods
-
     @Transient
     public LocalDateTime getEndTime() {
         return appointmentTime.plusHours(1);
@@ -127,7 +134,6 @@ public class Appointment {
     }
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -167,5 +173,20 @@ public class Appointment {
     public void setStatus(int status) {
         this.status = status;
     }
-}
 
+    public String getReasonForVisit() {
+        return reasonForVisit;
+    }
+
+    public void setReasonForVisit(String reasonForVisit) {
+        this.reasonForVisit = reasonForVisit;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+}

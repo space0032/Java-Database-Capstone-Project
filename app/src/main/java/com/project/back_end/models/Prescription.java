@@ -50,13 +50,12 @@
 
 
 
-
 package com.project.back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Document(collection = "prescriptions")
 public class Prescription {
@@ -81,24 +80,28 @@ public class Prescription {
     @Size(max = 200)
     private String doctorNotes;
 
-    // No-arg constructor
+    @Min(value = 0, message = "Refill count must be 0 or greater")
+    private int refillCount;
+
+    @Size(min = 3, max = 100, message = "Pharmacy name must be between 3 and 100 characters")
+    private String pharmacyName;
+
+    // Default constructor
     public Prescription() {}
 
-    // Parameterized constructor
-    public Prescription(@NotNull @Size(min = 3, max = 100) String patientName,
-                        @NotNull Long appointmentId,
-                        @NotNull @Size(min = 3, max = 100) String medication,
-                        @NotNull String dosage,
-                        @Size(max = 200) String doctorNotes) {
+    // Enhanced constructor
+    public Prescription(String patientName, Long appointmentId, String medication, String dosage,
+                        String doctorNotes, int refillCount, String pharmacyName) {
         this.patientName = patientName;
         this.appointmentId = appointmentId;
         this.medication = medication;
         this.dosage = dosage;
         this.doctorNotes = doctorNotes;
+        this.refillCount = refillCount;
+        this.pharmacyName = pharmacyName;
     }
 
     // Getters and Setters
-
     public String getId() {
         return id;
     }
@@ -146,5 +149,20 @@ public class Prescription {
     public void setDoctorNotes(String doctorNotes) {
         this.doctorNotes = doctorNotes;
     }
-}
 
+    public int getRefillCount() {
+        return refillCount;
+    }
+
+    public void setRefillCount(int refillCount) {
+        this.refillCount = refillCount;
+    }
+
+    public String getPharmacyName() {
+        return pharmacyName;
+    }
+
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
+    }
+}

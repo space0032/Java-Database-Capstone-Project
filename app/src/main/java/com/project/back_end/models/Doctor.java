@@ -58,7 +58,6 @@
 //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.
 
 
-
 package com.project.back_end.models;
 
 import jakarta.persistence.Entity;
@@ -66,11 +65,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ElementCollection;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
-
+import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -96,7 +91,7 @@ public class Doctor {
 
     @NotNull(message = "Password cannot be null")
     @Size(min = 6, message = "Password must be at least 6 characters")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Hide password in responses
     private String password;
 
     @NotNull(message = "Phone number cannot be null")
@@ -106,11 +101,22 @@ public class Doctor {
     @ElementCollection
     private List<String> availableTimes;
 
-    // Constructors
-    public Doctor() {
-    }
+    @Min(value = 0, message = "Years of experience cannot be negative")
+    @Max(value = 60, message = "Years of experience seems unrealistic")
+    private Integer yearsOfExperience;
 
-    public Doctor(Long id, String name, String specialty, String email, String password, String phone, List<String> availableTimes) {
+    @Size(max = 255, message = "Clinic address cannot exceed 255 characters")
+    private String clinicAddress;
+
+    @DecimalMin(value = "0.0", inclusive = true, message = "Rating cannot be less than 0")
+    @DecimalMax(value = "5.0", inclusive = true, message = "Rating cannot be more than 5")
+    private Double rating;
+
+    // Constructors
+    public Doctor() {}
+
+    public Doctor(Long id, String name, String specialty, String email, String password, String phone, 
+                  List<String> availableTimes, Integer yearsOfExperience, String clinicAddress, Double rating) {
         this.id = id;
         this.name = name;
         this.specialty = specialty;
@@ -118,9 +124,13 @@ public class Doctor {
         this.password = password;
         this.phone = phone;
         this.availableTimes = availableTimes;
+        this.yearsOfExperience = yearsOfExperience;
+        this.clinicAddress = clinicAddress;
+        this.rating = rating;
     }
 
-    // Getters and Setters
+    // Getters and setters
+
     public Long getId() {
         return id;
     }
@@ -177,5 +187,28 @@ public class Doctor {
     public void setAvailableTimes(List<String> availableTimes) {
         this.availableTimes = availableTimes;
     }
-}
 
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public String getClinicAddress() {
+        return clinicAddress;
+    }
+
+    public void setClinicAddress(String clinicAddress) {
+        this.clinicAddress = clinicAddress;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+}
