@@ -107,3 +107,76 @@ with search, filter, and modal functionality.
 
  -->
 
+<!-- adminDashboard.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" th:href="@{/assets/images/logo/logo.png}" />
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}" />
+  <link rel="stylesheet" th:href="@{/assets/css/style.css}" />
+
+  <!-- JavaScript Files -->
+  <script th:src="@{/js/render.js}" defer></script>
+  <script th:src="@{/js/util.js}" defer></script>
+  <script th:src="@{/js/components/header.js}" defer></script>
+  <script th:src="@{/js/components/footer.js}" defer></script>
+</head>
+
+<body onload="renderContent()">
+  <div class="container">
+    <div class="wrapper">
+
+      <!-- Header (Injected by header.js) -->
+      <div id="header"></div>
+
+      <!-- Main Dashboard Content -->
+      <main class="main-content">
+
+        <!-- Search Bar -->
+        <input type="text" id="searchBar" placeholder="Search by doctor name" />
+
+        <!-- Filters -->
+        <div class="filter-wrapper">
+          <select id="filterTime" aria-label="Filter by Time">
+            <option value="">Filter by Time</option>
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+
+          <select id="filterSpecialty" aria-label="Filter by Specialty">
+            <option value="">Filter by Specialty</option>
+            <option value="Cardiologist">Cardiologist</option>
+            <option value="Dentist">Dentist</option>
+            <option value="Dermatologist">Dermatologist</option>
+            <option value="Neurologist">Neurologist</option>
+            <option value="Oncologist">Oncologist</option>
+            <!-- Add more specialties as needed -->
+          </select>
+        </div>
+
+        <!-- Dynamic Doctor Cards will be injected here -->
+        <div id="content"></div>
+      </main>
+
+      <!-- Footer (Injected by footer.js) -->
+      <div id="footer"></div>
+    </div>
+  </div>
+
+  <!-- Modal for Adding or Editing Doctor -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <span id="closeModal" class="close" role="button" aria-label="Close modal">&times;</span>
+    <div id="modal-body"></div>
+  </div>
+
+  <!-- Admin Dashboard Scripts -->
+  <script type="module" th:src="@{/js/services/adminDashboard.js}" defer></script>
+  <script type="module" th:src="@{/js/components/doctorCard.js}" defer></script>
+</body>
+</html>

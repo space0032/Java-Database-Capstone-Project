@@ -102,3 +102,55 @@ and triggers modal-based login functionality.
     * Properly close all opened tags to complete the document structure.
 
  -->
+
+ <!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clinic Portal – Select Your Role</title>
+  <link rel="icon" href="./assets/images/logo/Logo.png" />
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="./assets/css/index.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- Utility and Component JS Files -->
+  <script src="./js/util.js" defer></script>
+  <script src="./js/render.js" defer></script>
+  <script src="./js/components/header.js" defer></script>
+  <script src="./js/components/footer.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <!-- Header Placeholder -->
+      <div id="header"></div>
+
+      <!-- Main Role Selection Content -->
+      <main class="main-content">
+        <h2>Select Your Role</h2>
+
+        <!-- Role Buttons -->
+        <button id="adminBtn" onclick="handleRoleSelect('admin')">Admin</button>
+        <button id="doctorBtn" onclick="handleRoleSelect('doctor')">Doctor</button>
+        <button id="patientBtn" onclick="handleRoleSelect('patient')">Patient</button>
+      </main>
+
+      <!-- Footer Placeholder -->
+      <div id="footer"></div>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Role Selection Logic -->
+  <script type="module" src="./js/services/index.js" defer></script>
+</body>
+</html>

@@ -63,3 +63,159 @@
 
 Let me know if you'd like a consolidated style guide for the entire HospitalCRM frontend.
  */
+
+ /* doctorDashboard.css */
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* Wrapper Layout */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  text-align: center;
+  background-image: url("index.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Table Header */
+.table-header {
+  font-size: 24px;
+  color: #015c5d;
+  margin-bottom: 30px;
+  margin-right: 0;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+thead {
+  background-color: #33333310;
+  color: #fff;
+}
+
+td,
+th {
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternating Table Rows */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f959;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffffc0;
+}
+
+tbody tr:hover {
+  background-color: #015c5d39;
+}
+
+/* Prescription Button */
+.prescription-btn {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.prescription-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.prescription-btn:active {
+  transform: scale(0.95);
+}
+
+/* No Record Message */
+.noPatientRecord {
+  font-size: 16px;
+  font-style: italic;
+  color: grey;
+  margin-top: 20px;
+}
+
+/* Filter Controls */
+.today-btn {
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #015c5d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.today-btn:hover {
+  background-color: #017d7e;
+}
+
+.date-picker {
+  margin-left: 10px;
+  margin-top: 13px;
+  border-radius: 8px;
+  padding: 10px;
+  height: 30px;
+  border: 1px solid #ccc;
+}
+
+/* Search Bar */
+.searchBar {
+  padding: 10px;
+  width: 40%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchBar {
+    width: 80%;
+  }
+
+  table th,
+  table td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .today-btn,
+  .date-picker {
+    display: block;
+    margin: 10px auto;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+}

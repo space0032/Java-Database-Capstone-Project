@@ -92,3 +92,186 @@ Admin Button (`.adminBtn`)
 
 
 */
+
+/* adminDashboard.css */
+/* This is the style sheet for adminDashboard.html */
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Base Styles */
+  html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Main Layout Wrapper */
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Main Content Section */
+  .main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  
+    /* Example background image - adjust path as needed */
+    background-image: url("../images/index.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  /* Section Heading */
+  h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #003e3e;
+  }
+  
+  /* Primary Button Styles */
+  button {
+    background-color: #A62B1F;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    width: 200px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #A62B1F; /* Retain red on hover */
+  }
+  
+  /* Admin Button Styles */
+  .adminBtn {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+    width: 110px;
+    padding: 10px 0;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .adminBtn:hover {
+    color: #A62B1F; /* Change text color on hover */
+  }
+  
+  /* Search Bar and Filter Dropdowns */
+  #searchBar,
+  #filterTime,
+  #filterSpecialty {
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  #searchBar:focus,
+  #filterTime:focus,
+  #filterSpecialty:focus {
+    border-color: #A62B1F;
+  }
+  
+  /* Filter Wrapper */
+  .filter-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Modal Styling */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  
+    background-color: rgba(0, 0, 0, 0.6); /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .modal.active {
+    display: flex; /* Show modal when active */
+  }
+  
+  .modal #modal-body {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+  
+  /* Close Button */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  
+  .close:hover {
+    color: #A62B1F;
+  }
+  
+  /* Doctor Cards Container */
+  #content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .filter-wrapper {
+      flex-direction: column;
+    }
+  
+    #searchBar,
+    #filterTime,
+    #filterSpecialty {
+      width: 90%;
+      margin: 10px auto;
+    }
+  
+    #content {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
