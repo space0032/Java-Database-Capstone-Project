@@ -1,7 +1,3 @@
-package com.project.back_end.mvc;
-
-public class DashboardController {
-
 // 1. Set Up the MVC Controller Class:
 //    - Annotate the class with `@Controller` to indicate that it serves as an MVC controller returning view names (not JSON).
 //    - This class handles routing to admin and doctor dashboard pages based on token validation.
@@ -27,4 +23,44 @@ public class DashboardController {
 //    - If the token is invalid, redirects to the root URL.
 
 
+
+package com.project.back_end.mvc;
+
+import com.project.back_end.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@Controller
+public class DashboardController {
+
+    // 2. Autowire the Shared Service:
+    @Autowired
+    private Service service;  // Make sure this is the correct service class name
+
+    // 3. Define the adminDashboard Method
+    @GetMapping("/adminDashboard/{token}")
+    public String adminDashboard(@PathVariable("token") String token) {
+        Map<String, String> errors = service.validateToken(token, "admin");
+
+        if (errors.isEmpty()) {
+            return "admin/adminDashboard"; // Thymeleaf will render adminDashboard.html
+        } else {
+            return "redirect:/"; // Redirects to root (login or homepage)
+        }
+    }
+
+    // 4. Define the doctorDashboard Method
+    @GetMapping("/doctorDashboard/{token}")
+    public String doctorDashboard(@PathVariable("token") String token) {
+        Map<String, String> errors = service.validateToken(token, "doctor");
+
+        if (errors.isEmpty()) {
+            return "doctor/doctorDashboard"; // Thymeleaf will render doctorDashboard.html
+        } else {
+            return "redirect:/"; // Redirects to root
+        }
+    }
 }
