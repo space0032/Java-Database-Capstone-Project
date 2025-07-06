@@ -52,3 +52,79 @@
     - Call renderContent() (assumes it sets up the UI layout)
     - Call loadAppointments() to display today's appointments by default
 */
+
+// doctorDashboard.js
+
+import { getAllAppointments } from './services/appointmentRecordService.js';
+import { createPatientRow } from './components/patientRows.js';
+
+const patientTableBody = document.getElementById('patientTableBody');
+const searchBar = document.getElementById('searchBar');
+const todayButton = document.getElementById('todayButton');
+const datePicker = document.getElementById('datePicker');
+
+let selectedDate = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+let token = localStorage.getItem('token');
+let patientName = null;
+
+// Update search filtering on input
+searchBar.addEventListener('input', () => {
+  const val = searchBar.value.trim();
+  patientName = val !== '' ? val : "null";  // "null" expected by backend for no filter
+  loadAppointments();
+});
+
+// Today button resets date picker and reloads today's appointments
+todayButton.addEventListener('click', () => {
+  selectedDate = new Date().toISOString().slice(0, 10);
+  datePicker.value = selectedDate;
+  loadAppointments();
+});
+
+// Date picker changes update selectedDate and reload appointments
+datePicker.addEventListener('change', () => {
+  selectedDate = datePicker.value;
+  loadAppointments();
+});
+
+/**
+ * Fetches and renders appointments based on filters
+ */
+async function loadAppointments() {
+  try {
+    const appointments = await getAllAppointments(selectedDate, patientName, token);
+    
+    patientTableBody.innerHTML = ''; // Clear existing rows
+
+    if (!appointments || appointments.length === 0) {
+      const noDataRow = document.createElement('tr');
+      noDataRow.innerHTML = `<td colspan="5" style="text-align:center;">No Appointments found for ${selectedDate}.</td>`;
+      patientTableBody.appendChild(noDataRow);
+      return;
+    }
+
+    // Append rows for each appointment
+    appointments.forEach(app => {
+      const patient = {
+        id: app.patientId,
+        name: app.patientName,
+        phone: app.patientPhone,
+        email: app.patientEmail
+      };
+      const row = createPatientRow(patient, app);
+      patientTableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    patientTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Error loading appointments. Try again later.</td></tr>`;
+  }
+}
+
+// On page load, render UI and load today's appointments
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof renderContent === 'function') {
+    renderContent();  // If defined elsewhere
+  }
+  datePicker.value = selectedDate;  // Initialize date picker UI
+  loadAppointments();
+});
