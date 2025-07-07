@@ -21,7 +21,7 @@ jobs:
 
       - name: Configure Maven encoding
         run: |
-          echo "MAVEN_OPTS='-Dfile.encoding=UTF-8'" >> $GITHUB_ENV
+          echo MAVEN_OPTS=-Dfile.encoding=UTF-8 >> $GITHUB_ENV
 
       - name: Compile with Maven
         run: |
