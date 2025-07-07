@@ -1,8 +1,4 @@
-package com.project.back_end.repo;
-
-public interface AdminRepository {
-
-    // 1. Extend JpaRepository:
+// 1. Extend JpaRepository:
 //    - The repository extends JpaRepository<Admin, Long>, which gives it basic CRUD functionality.
 //    - The methods such as save, delete, update, and find are inherited without the need for explicit implementation.
 //    - JpaRepository also includes pagination and sorting features.
@@ -27,4 +23,17 @@ public interface AdminRepository {
 // Example: @Repository
 //          public interface AdminRepository extends JpaRepository<Admin, Long> { ... }
 
+
+package com.project.back_end.repo;
+
+import com.project.back_end.models.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AdminRepository extends JpaRepository<Admin, Long> {
+    
+    // Custom finder method to retrieve an Admin by username
+    Admin findByUsername(String username);
 }
+

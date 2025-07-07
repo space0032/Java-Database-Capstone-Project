@@ -1,8 +1,3 @@
-package com.project.back_end.DTO;
-
-public class Login {
-    
-// 1. 'email' field:
 //    - Type: private String
 //    - Description:
 //      - Represents the email address used for logging into the system.
@@ -27,4 +22,31 @@ public class Login {
 //    - The 'setPassword(String password)' method sets the password value.
 
 
+package com.project.back_end.DTO;
+
+public class Login {
+
+    private String email;
+    private String password;
+
+    // Default constructor
+    public Login() {}
+
+    // Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
+

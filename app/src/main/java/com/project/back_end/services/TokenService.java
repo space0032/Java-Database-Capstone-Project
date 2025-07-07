@@ -1,6 +1,3 @@
-package com.project.back_end.services;
-
-public class TokenService {
 // 1. **@Component Annotation**
 // The @Component annotation marks this class as a Spring component, meaning Spring will manage it as a bean within its application context.
 // This allows the class to be injected into other Spring-managed components (like services or controllers) where it's needed.
@@ -40,4 +37,74 @@ public class TokenService {
 // This ensures secure access control based on the user's role and their existence in the system.
 
 
+package com.project_back_end.services;
+
+import com.project_back_end.repo.AdminRepository;
+import com.project_back_end.repo.DoctorRepository;
+import com.project_back_end.repo.PatientRepository;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.Optional;
+
+@Component
+public class TokenService {
+
+    private final AdminRepository adminRepository;
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    public TokenService(AdminRepository adminRepository,
+                        DoctorRepository doctorRepository,
+                        PatientRepository patientRepository) {
+        this.adminRepository = adminRepository;
+        this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
+    }
+
+    public SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    }
+
+    public String generateToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 days
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractEmail(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public boolean validateToken(String token, String user) {
+        try {
+            String email = extractEmail(token);
+
+            return switch (user.toLowerCase()) {
+                case "admin" -> adminRepository.findByUsername(email).isPresent();
+                case "doctor" -> doctorRepository.findByEmail(email).isPresent();
+                case "patient" -> patientRepository.findByEmail(email).isPresent();
+                default -> false;
+            };
+
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
 }
+

@@ -1,8 +1,3 @@
-package com.project.back_end.controllers;
-
-
-public class AppointmentController {
-
 // 1. Set Up the Controller Class:
 //    - Annotate the class with `@RestController` to define it as a REST API controller.
 //    - Use `@RequestMapping("/appointments")` to set a base path for all appointment-related endpoints.
@@ -45,4 +40,93 @@ public class AppointmentController {
 //    - Calls `AppointmentService` to handle the cancellation process and returns the result.
 
 
+package com.project.back_end.controllers;
+
+import com.project.back_end.models.Appointment;
+import com.project.back_end.services.AppointmentService;
+import com.project.back_end.services.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/appointments")
+public class AppointmentController {
+
+    private final AppointmentService appointmentService;
+    private final Service service;
+
+    @Autowired
+    public AppointmentController(AppointmentService appointmentService, Service service) {
+        this.appointmentService = appointmentService;
+        this.service = service;
+    }
+
+    // 1. Get Appointments (Doctor Access)
+    @GetMapping("/{date}/{patientName}/{token}")
+    public ResponseEntity<Map<String, Object>> getAppointments(
+            @PathVariable String date,
+            @PathVariable String patientName,
+            @PathVariable String token) {
+
+        ResponseEntity<Map<String, String>> validationResponse = service.validateToken(token, "doctor");
+        if (validationResponse.getStatusCode().isError()) {
+            return ResponseEntity.status(validationResponse.getStatusCode()).body(Map.of("error", "Unauthorized or invalid token"));
+        }
+
+        return appointmentService.getAppointment(date, patientName);
+    }
+
+    // 2. Book Appointment (Patient Access)
+    @PostMapping("/{token}")
+    public ResponseEntity<Map<String, String>> bookAppointment(
+            @PathVariable String token,
+            @RequestBody Appointment appointment) {
+
+        ResponseEntity<Map<String, String>> validationResponse = service.validateToken(token, "patient");
+        if (validationResponse.getStatusCode().isError()) {
+            return ResponseEntity.status(validationResponse.getStatusCode()).body(Map.of("error", "Unauthorized or invalid token"));
+        }
+
+        int isValid = service.validateAppointment(appointment);
+
+        if (isValid == -1) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Doctor not found"));
+        } else if (isValid == 0) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Appointment time unavailable"));
+        }
+
+        return appointmentService.bookAppointment(appointment);
+    }
+
+    // 3. Update Appointment (Patient Access)
+    @PutMapping("/{token}")
+    public ResponseEntity<Map<String, String>> updateAppointment(
+            @PathVariable String token,
+            @RequestBody Appointment appointment) {
+
+        ResponseEntity<Map<String, String>> validationResponse = service.validateToken(token, "patient");
+        if (validationResponse.getStatusCode().isError()) {
+            return ResponseEntity.status(validationResponse.getStatusCode()).body(Map.of("error", "Unauthorized or invalid token"));
+        }
+
+        return appointmentService.updateAppointment(appointment);
+    }
+
+    // 4. Cancel Appointment (Patient Access)
+    @DeleteMapping("/{id}/{token}")
+    public ResponseEntity<Map<String, String>> cancelAppointment(
+            @PathVariable Long id,
+            @PathVariable String token) {
+
+        ResponseEntity<Map<String, String>> validationResponse = service.validateToken(token, "patient");
+        if (validationResponse.getStatusCode().isError()) {
+            return ResponseEntity.status(validationResponse.getStatusCode()).body(Map.of("error", "Unauthorized or invalid token"));
+        }
+
+        return appointmentService.cancelAppointment(id);
+    }
 }
+
