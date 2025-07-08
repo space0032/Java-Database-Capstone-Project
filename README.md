@@ -104,8 +104,6 @@ By completing this Capstone, you will have developed:
 
 **Let’s build something amazing that could improve real lives. 👨‍⚕️👩‍⚕️💻**
 
----
 
-### 📎 License
 
 
