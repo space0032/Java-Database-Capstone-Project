@@ -6,4 +6,4 @@
 ![🌐 Lint Frontend](https://github.com/Willie-Conway/java-database-capstone/actions/workflows/lint-frontend.yml/badge.svg)
 
 
-# Smart Clinic Managemenrt System
+# Smart Clinic Management System
