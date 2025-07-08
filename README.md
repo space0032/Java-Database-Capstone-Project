@@ -6,9 +6,6 @@
 ![🌐 Lint Frontend](https://github.com/Willie-Conway/java-database-capstone/actions/workflows/lint-frontend.yml/badge.svg)
 
 
-Here is a professional and visually engaging `README.md` file with relevant emojis to make the project overview both informative and approachable:
-
-```markdown
 # 🏥 Smart Clinic Management System - Java Development Capstone Project
 
 Welcome to the **Java Development Capstone Project**! In this project, you'll design and build a **Smart Clinic Management System** — a robust, secure, and scalable full-stack application. You'll leverage technologies like **Java Spring Boot**, **MySQL**, **MongoDB**, **Docker**, and more to solve real-world healthcare problems. 💻🩺
